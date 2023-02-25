@@ -6,12 +6,12 @@ import '../../index.css';
 class LoginForm extends React.Component {
     constructor() {
         super();
-    //     this.state = {
-    //         username: "",
-    //         password: "",
-       }  
+        //     this.state = {
+        //         username: "",
+        //         password: "",
+    }
 
-        
+
 
     //     // event handlers
     //     this.onLogin = this.onLogin.bind(this);
@@ -57,11 +57,15 @@ class LoginForm extends React.Component {
                     </div>
                     <div className="mb-3 text-start">
                         <label for="password" className="form-label text-muted ">Password</label>
-                        <input type="password" name="password" className="form-control" id="password"  placeholder="password" />
+                        <input type="password" name="password" className="form-control" id="password" placeholder="password" />
                     </div>
-
                     <input required type="submit" className="btn btn-outline-primary" /><br /><br />
                     <span>Don't have an Account,<a href="/signup" className="text-center" style={{ textDecoration: "none" }}> Click here to sign up</a></span>
+
+
+
+
+
                 </form>
 
             </div>
