@@ -4,28 +4,36 @@ import {BrowserRouter,Route,Link,Switch,Routes} from 'react-router-dom';
 import ContactUs from './components/contactus/contact';
 import Card from './components/Product_consumer/Card';
 import LoginForm from './components/Login/login';
+import SignupFormRetail from './components/Signup/signup_retail';
+import SignupFormUser from './components/Signup/signup_user';
+import LoginRetail from './components/Login/login_retail';
+
+
 function App() {
   return (
     <div className="App">  
       <Navbar></Navbar>
-      <BrowserRouter>
-        <Routes>
+      {/* <SignupFormRetail></SignupFormRetail> */}
+      {/* <SignupFormUser></SignupFormUser> */}
+      {/* <BrowserRouter> */}
+        {/* <Routes> */}
         {/* <Route path="/" exact element={<Homescreen/>} /> */}
         {/* <Route path="/cart" exact element={<Cartscreen/>} /> */}
         {/* <Route path="/signup" exact element={<SignupForm/>} /> */}
-        <Route path="/login" exact element={<LoginForm/>} />
+        {/* <Route path="/login" exact element={<LoginForm/>} /> */}
         {/* <Route path="/logout" exact element={<Logout/>} /> */}
-        <Route path="/contact" exact element={<ContactUs/>} />
+        {/* <Route path="/contact" exact element={<ContactUs/>} /> */}
        {/* <Route path="/order" exact element={<OrderForm/>} /> 
         <Route path="/pay/:amt" exact element={<Pay/>} />
         <Route path="/contact/thank-you" exact element={<ThankYou/>} /> */}
-        </Routes>
-      </BrowserRouter>
+        {/* </Routes> */}
+      {/* </BrowserRouter> */}
       {/* <ContactUs></ContactUs> */}
-      {/* <LoginForm></LoginForm> */}
+      <LoginForm></LoginForm>
+      {/* <LoginRetail></LoginRetail> */}
       {/* <Card></Card> */}
     </div>
   );
 }
 
-export default App;
+export default App;

@@ -9,6 +9,7 @@
     "bootstrap": "^5.2.3",
     "js-cookie": "^3.0.1",
     "js-cookies": "^1.0.4",
+    "mdb-react-ui-kit": "^5.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
