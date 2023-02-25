@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcrypt');
+const router = express.Router();
 
 const retailModel = require('../models/retailerModel')
+const productModel = require('../models/productModel')
 const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
@@ -15,7 +16,7 @@ router.post('/signup', (request, response, next) => {
                 password: hash,
                 email: request.body.email,
                 location: request.body.location,
-                products: request.body.products
+                products: []
             })
             retailTemplate.save((err, data) => {
                 if (err) {
@@ -45,8 +46,28 @@ router.post('/signup', (request, response, next) => {
 })
 
 
-router.post('/add-item', (req, res, next) => {
-    
+router.put('/add-item', async (req, res, next) => {
+    try {
+        let product = await productModel.findOne({name : req.body.name})
+        if(!product) {
+            product = new productModel({
+                name: req.body.name,
+                qty: req.body.qty,
+                price: req.body.price,
+                image_link: req.body.image_link,
+                shops: [req.body.shop_name],
+                description: req.body.description
+            })
+            product.save()
+        }
+        else {
+            product.shops.push(req.body.shop_name)
+            productModel.save()
+        }
+    }
+    catch(err) {
+        next(err);
+    }
 })
 
 router.use((err, req, res, next) => {

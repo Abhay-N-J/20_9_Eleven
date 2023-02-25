@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const cors = require('cors');
+// const cors = require('cors');
 
 const customerUrls= require('./routes/customer');
 const retailerUrls= require('./routes/retailer');
@@ -14,7 +14,7 @@ const mongo_uri = process.env.MONGO_URI;
 const saltRounds = 12;
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(cors());
+// app.use(cors());
 app.use('/',customerUrls); 
 app.use('/retailer',retailerUrls); 
 
