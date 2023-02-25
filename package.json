@@ -2,9 +2,7 @@
   "name": "duffers",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "mongoose": "^6.10.0"
-  },
+  
   "dependencies": {
     "bcrypt": "^5.1.0",
     "mongoose": "^6.10.0"
