@@ -62,7 +62,7 @@ router.post('/login', (request, response, next) => {
                 // user exists
                 console.log(user);
                 if (bcrypt.compareSync(request.body.password, user.password)) {
-                    response.json({success:"true",user:user});
+                    response.json({ success: "true", user: user });
                 }
                 else {
                     response.status(400).json({ sucess: "false", msg: "Invalid password" });
@@ -91,25 +91,25 @@ router.get('/products/:lat/:lng', (request, response, next) => {
                 // user exists
                 console.log(shops);
                 var shopList = []
-                var productList=[]
-                var prod=[]
-                var radius =2000// 2km
+                var productList = []
+                var prod = []
+                var radius = 2000// 2km
                 shops.forEach(shop => {
                     if (geofence(userLat, userLng, shop.location.lat, shop.location.lng)) {
                         shopList.push(shop)
-                        shop.productList.forEach(prod=>{
+                        shop.productList.forEach(prod => {
                             // add only unique elements
-                            if(!productList.includes(prod.product_id)){
+                            if (!productList.includes(prod.product_id)) {
                                 productList.push(prod.product_id)
                             }
-                        },function (){
+                        }, function () {
                             // find productList ids in productModel in prod array
-                            productModel.find({_id:{$in:productList}},function(err,docs){
-                                prod=docs
+                            productModel.find({ _id: { $in: productList } }, function (err, docs) {
+                                prod = docs
                             }
                             )
                             response.send(prod)
-                        })                        
+                        })
                     }
                 });
                 console.log(shopList)
@@ -121,23 +121,24 @@ router.get('/products/:lat/:lng', (request, response, next) => {
     }
 })
 
-router.post('/order',(req,res,next)=>{
-    try{
+router.post('/order/:lat/:lng', (req, res, next) => {
+    try {
         console.log(req.body)
-        const order = new orderModel(req.body)
+        // use products array and check the frequency of shops which occur the most in productModel
+        // then use that shop to place the order
+
+        var k= productModel.find({ _id: { $in: req.body.products } })
         .then(()=>{
-            order.save()
-            res.json({msg: "Order Placed Successfully"})
+            console.log(k)
         })
-        .catch((err)=>{
-            res.json({msg: "Order Failed"})
-        })
-    
+        
     }
-    catch(err){
-        next(err)
+    catch (err) {
+        next(err);
     }
 })
+
+
 
 router.use((err, req, res, next) => {
     console.error(err.stack)

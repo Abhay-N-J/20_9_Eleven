@@ -22,6 +22,10 @@ const userModel = new mongoose.Schema({
         latitude:Number,
         longitude:Number,
     },
+    wallet:{
+        type:Number,
+        default:500,
+    }
 })
 
 module.exports = mongoose.model("UserTable",userModel);
