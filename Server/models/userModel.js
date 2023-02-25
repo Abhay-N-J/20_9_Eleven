@@ -19,7 +19,8 @@ const userModel = new mongoose.Schema({
         required:true,
     },
     location:{
-        type:String
+        latitude:Number,
+        longitude:Number,
     },
 })
 
