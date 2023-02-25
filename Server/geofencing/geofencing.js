@@ -35,4 +35,4 @@ function geofence(userLat,userLng,shopLat,shopLng,fenceRadius){
     }
 } 
 
-geofence()
+module.exports = geofence
