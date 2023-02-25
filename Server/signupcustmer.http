@@ -1,0 +1,11 @@
+POST http://localhost:4100/signup
+Content-Type: application/json
+
+{
+    "username":"shreya",
+    "email":"shreya@gmail.com",
+    "password":"shreya",
+    "location":"20,100",
+    "address":"Help sfyewhb"
+
+}

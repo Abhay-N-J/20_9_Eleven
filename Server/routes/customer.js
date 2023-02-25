@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
@@ -8,7 +8,8 @@ const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
     try {
-        bcrypt.hash(request.body.passwd, saltRounds)
+        console.log(request.body)
+        bcrypt.hash(request.body.password, saltRounds)
             .then(hash => {
                 const userTemplate = new userModel({
                     username: request.body.username,
@@ -46,14 +47,16 @@ router.post('/signup', (request, response, next) => {
 
 router.post('/login', (request, response, next) => {
     try {
+        console.log(request.body)
         const user = {
             username: request.body.username,
         };
+        // response.json({ msg: "Login Successful" });
 
         userModel.findOne(user)
             .then((user) => {
                 // user exists
-                // response.json(user);
+                console.log(user);
                 if (bcrypt.compareSync(request.body.password, user.password)) {
                     response.json(user);
                 }
@@ -65,8 +68,9 @@ router.post('/login', (request, response, next) => {
             // response.json({hash:hash, pass:user.password })
 
             .catch((error) => {
-                response.status(400).json(error);
+                response.status(400).json({msg:"err"});
             })
+        
     }
     catch (err) {
         next(err);
@@ -74,8 +78,10 @@ router.post('/login', (request, response, next) => {
 })
 
 
+
 router.use((err, req, res, next) => {
-    // console.error(err.stack)
+    console.error(err.stack)
+    console.log("Error Occured")
     response.status(400).json({
         success: false,
         code: 69,
