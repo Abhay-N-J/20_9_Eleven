@@ -16,7 +16,8 @@ app.use(cors());
 app.post('/add-item', async (req, res, next) => {
     try {
         const client = new MongoClient(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-        
+        const db = client.db("Products");
+    
     }
     catch(err) {
         next(err);
