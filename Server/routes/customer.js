@@ -6,7 +6,8 @@ const router = express.Router();
 const userModel = require('../models/userModel')
 const productModel = require('../models/productModel')
 const shopModel = require('../models/retailerModel')
-const geofence = require("./../geofencing/geofencing")
+const geofence = require("./../geofencing/geofencing");
+const orderModel = require('../models/orderModel');
 
 const saltRounds = 10
 
@@ -106,8 +107,7 @@ router.get('/products/:lat/:lng', (request, response, next) => {
                             // find productList ids in productModel in prod array
                             productModel.find({ _id: { $in: productList } }, function (err, docs) {
                                 prod = docs
-                            }
-                            )
+                            })
                             response.send(prod)
                         })
                     }
@@ -121,17 +121,73 @@ router.get('/products/:lat/:lng', (request, response, next) => {
     }
 })
 
+router.get('/get-shops-closest/:lat/:lng', (request, response, next) => {
+    const userLat = request.params.lat
+    const userLng = request.params.lng
+    shopModel.find()
+        .then((shops) => {
+            // user exists
+            console.log(shops);
+            var shopList = []
+            var productList = []
+            var prod = []
+            var radius = 2000// 2km
+            shops.forEach(shop => {
+                if (geofence(userLat, userLng, shop.location.lat, shop.location.lng)) {
+                    shopList.push(shop)
+                }
+            });
+            console.log(shopList)
+            response.json(shopList)
+        })
+})
+
 router.post('/order/:lat/:lng', (req, res, next) => {
     try {
-        console.log(req.body)
+        console.log(req.body.shopList)
         // use products array and check the frequency of shops which occur the most in productModel
         // then use that shop to place the order
+        var obj={};
 
-        var k= productModel.find({ _id: { $in: req.body.products } })
-        .then(()=>{
-            console.log(k)
-        })
-        
+        var k = productModel.find({ _id: { $in: req.body.products } })
+            .then(() => {
+                console.log(k)
+                for (var i=0; i<k.length;i++){
+                    // count frequency of shopList in k
+                    var shopList = k[i].shopList
+                    var obj={}
+                    for (var j=0; j<k[i].shop.length;j++){
+                        if (shopList.includes(obj[k[i].shop[j]]))
+                        if (obj[k[i].shop[j]]){
+                            obj[k[i].shop[j]]+=1
+                        }
+                        else{
+                            obj[k[i].shop[j]]=1
+                        }
+                    }
+                }
+                // find max value in the obj
+                var max = 0
+                var shop = ""
+                for (var key in obj){
+                    if (obj[key]>max){
+                        max = obj[key]
+                        shop = key
+                    }
+                }
+                // place order in shop
+
+                var order= new orderModel(req.body.order)
+                .then(()=>{
+                    order.save()
+                    res.json({success:true, msg:"Order Placed"})
+                })
+                .catch((err)=>{
+                    res.json({success:false, msg:"Error Occured"})
+                })
+
+            })
+
     }
     catch (err) {
         next(err);
