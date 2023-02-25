@@ -1,21 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
-const userModel= require('../models/userModel')
-
+const retailModel = require('../models/retailerModel')
+const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
     try {
         bcrypt.hash(request.body.passwd, saltRounds)
         .then(hash => {
-            const userTemplate = new userModel({
+            const retailTemplate = new retailModel({
                 username: request.body.username,
+                name: request.body.name,
                 password: hash,
                 email: request.body.email,
                 location: request.body.location,
-                address: request.body.address
+                products: request.body.products
             })
-            userTemplate.save((err, data) => {
+            retailTemplate.save((err, data) => {
                 if (err) {
                     if (err.code === 11000) {
                         // Duplicate username
