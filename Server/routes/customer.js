@@ -109,9 +109,7 @@ router.get('/products/:lat/:lng', (request, response, next) => {
                             }
                             )
                             response.send(prod)
-                        })
-
-                        
+                        })                        
                     }
                 });
                 console.log(shopList)
@@ -123,7 +121,23 @@ router.get('/products/:lat/:lng', (request, response, next) => {
     }
 })
 
-
+router.post('/order',(req,res,next)=>{
+    try{
+        console.log(req.body)
+        const order = new orderModel(req.body)
+        .then(()=>{
+            order.save()
+            res.json({msg: "Order Placed Successfully"})
+        })
+        .catch((err)=>{
+            res.json({msg: "Order Failed"})
+        })
+    
+    }
+    catch(err){
+        next(err)
+    }
+})
 
 router.use((err, req, res, next) => {
     console.error(err.stack)
