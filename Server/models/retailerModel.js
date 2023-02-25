@@ -18,6 +18,9 @@ const retailerModel = new mongoose.Schema({
         latitude:Number,
         longitude:Number,
     },
+    address:{
+        type:String
+    },
     products:[{
         product_id:String,
         product_name:String,
