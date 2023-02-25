@@ -37,17 +37,20 @@ class LoginRetail extends React.Component {
       }
   }
 
-  submit = () => {
+  submit = (e) => {
+    e.preventDefault();
     const data = {
       username: this.state.username,
       password: this.state.password
     }
-    Axios.post('/retail/login', data)
+    Axios.post('/retailer/login', data)
     .then(token => {
-        this.props.setToken({'token':true, 'id':token._id});
+      console.log(token);
+        this.props.setToken({'token':true, 'id':token.data._id});
+        window.location = '/'
     })
     .catch(err => {
-      alert("Password or username is wrong");
+      alert("Password or username is wrong" + err);
     })
   }
 
@@ -62,22 +65,22 @@ class LoginRetail extends React.Component {
                     <div className="d-flex flex-column ms-5">
             
                       <div className="text-center">
-                        <h4 className="mt-1 mb-5 pb-1">News Website</h4>
+                        <h4 className="mt-1 mb-5 pb-1">Duffers</h4>
                       </div>
             
-                      <form className="shadow-lg rounded p-3 mb-5" >
+                      <form className="shadow-lg rounded p-3 mb-5" method="POST" onSubmit={this.submit}>
                           <div className="d-flex justify-content-center">
                             <p>Dear Retailer , Login to an already existing account</p>
                           </div>
                           <div className="d-flex justify-content-center">
-                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="username" onChange={this.onChange} requierd type='text'/>
+                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="username" onChange={this.onChange} required type='text'/>
                           </div>
                           <div className="d-flex justify-content-center">
                             <MDBInput label='Password' method='post' wrapperClass='mb-4 w-75' name="passwd" onChange={this.onChange} required type='password'/>
                           </div>
                           <div className="text-center pt-1 mb-5 pb-1">
                           {/* <MDBBtn className="mb-4 w-100 gradient-custom-2" type="submit">Sign in</MDBBtn> */}
-                            <Button className="mb-4 w-25 gradient-custom-2" type='submit' onSubmit={this.submit}> Submit </Button>
+                            <Button className="mb-4 w-25 gradient-custom-2" type='submit'> Submit </Button>
                             <br/>
                           </div>
                       </form>

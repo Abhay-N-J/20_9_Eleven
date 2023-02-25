@@ -106,7 +106,7 @@ class SignupFormUser extends React.Component {
                 <h4 className="mt-1 mb-5 pb-1">Signup</h4>
               </div>
 
-              <form className="shadow-lg rounded p-3 mb-5" >
+              <form className="shadow-lg rounded p-3 mb-5" onSubmit = {this.handleSubmit} method="POST">
                 <div className="d-flex justify-content-center">
                   <p>Please sign up to create an account</p>
                 </div>

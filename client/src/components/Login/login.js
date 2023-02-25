@@ -38,15 +38,18 @@ class LoginForm extends React.Component {
             }
         }
 
-        submit = () => {
+        submit = (e) => {
+          e.preventDefault();
           const data = {
             username: this.state.username,
             password: this.state.password
           }
           Axios.post('/login', data)
           .then(token => {
-            if(token.success === true)
+            if(token.success === true) {
               this.props.setToken({'token':token.success, 'id':token.user._id})
+              window.location = '/'
+            }
             else 
               alert("Password or username is wrong")
           })
@@ -65,7 +68,7 @@ class LoginForm extends React.Component {
                         <h4 className="mt-1 mb-5 pb-1">Duffers</h4>
                       </div>
             
-                      <form className="shadow-lg rounded p-3 mb-5" >
+                      <form className="shadow-lg rounded p-3 mb-5" method="POST" onSubmit={this.submit}>
                           <div className="d-flex justify-content-center">
                             <p>Dear Customer , Login to an already existing account</p>
                           </div>
@@ -77,7 +80,7 @@ class LoginForm extends React.Component {
                           </div>
                           <div className="text-center pt-1 mb-5 pb-1">
                           {/* <MDBBtn className="mb-4 w-100 gradient-custom-2" type="submit">Sign in</MDBBtn> */}
-                            <Button className="mb-4 w-25 gradient-custom-2" onSubmit={this.submit} type='submit'> Submit </Button>
+                            <Button className="mb-4 w-25 gradient-custom-2" type='submit'> Submit </Button>
                             <br/>
                           </div>
                       </form>

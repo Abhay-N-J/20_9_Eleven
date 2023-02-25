@@ -27,7 +27,7 @@ export default class App extends Component {
   handleToken = userToken => {
     this.setToken(userToken);
     this.setState({
-      token:this.sessionStorage.getItem('token')
+      token: sessionStorage.getItem('token')
     })
   }
 
@@ -48,6 +48,7 @@ export default class App extends Component {
               <Route exact path = '/' element = {<Home/>} />
               <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
               <Route exact path = '/signup' element = {<SignupFormUser/>} />
+              <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
               {['cards','login'].map(path => <Route key={path} path={path} element={<Login setToken = {this.handleToken}/>} ></Route>)}
               {/* <Route path = '/(login|head|collection|sources|login|everythin|memes)/' element = {<Login setToken = {this.handleToken}/> } /> */}
             </Routes>
@@ -66,6 +67,7 @@ export default class App extends Component {
         {/* <StyledLink to='/'>Home</StyledLink>
         <StyledLink to='/Comp'>Component</StyledLink> */}
               <Routes>
+                    <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
                     <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
                     <Route exact path = '/' element = {<Home/>} />
                     <Route exact path = '/signup' element = {<SignupFormUser/>} />
@@ -95,6 +97,7 @@ export default class App extends Component {
           {/* <StyledLink to='/'>Home</StyledLink>
           <StyledLink to='/Comp'>Component</StyledLink> */}
                 <Routes>
+                      <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
                       <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
                       <Route exact path = '/' element = {<Home/>} />
                       <Route exact path = '/signup' element = {<SignupFormUser/>} />

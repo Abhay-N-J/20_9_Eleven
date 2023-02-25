@@ -18,28 +18,44 @@ class CardContainer extends Component
             isLoaded : false,
             items: [],
             error:false,
-            message:''
+            message:'',
+            latitude:'',
+            longitude:''
         }
     }
+    
 
-    apiCall = async (value) => {
+    apiCall = async () => {
         this.setState({
             isLoaded: false
         })
-        const body = Axios.get('/products');
+        const body = Axios.get('/products/' + this.state.latitude + '/' + this.state.longitude);
         return body;
     }
 
     async componentDidMount()
     {
-        let body = await this.apiCall(0);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                this.setState({
+                    latitude: latitude,
+                    longitude: longitude
+                },async () => {
+                    let body = await this.apiCall();
+                    this.setState({
+                        isLoaded: true,
+                        items:body?.data,
+                        error:body?.succes,
+                        message:body?.message
+                    }) 
+                })
+            });
+        }
+        
         // console.log(body);
-        this.setState({
-            isLoaded: true,
-            items:body?.data,
-            error:body?.succes,
-            message:body?.message
-        }) 
+        
     }
 
     // prevPage = async () => {
