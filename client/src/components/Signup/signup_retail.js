@@ -11,6 +11,45 @@ import { Button } from "react-bootstrap";
 
 
 class SignupFormRetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            name: '',
+            email: '',
+            location: '',
+            password: ''
+        };
+
+    }
+
+    updateUsername=(event)=>{
+        this.setState({username: event.target.value});
+    }
+
+    updateName=(event)=>{
+        this.setState({name: event.target.value});
+    }
+
+    updateEmail=(event)=>{
+      this.setState({email: event.target.value});
+    }
+
+    getLocation=(event)=>{
+      // use geolocation api to get location
+      
+    }
+
+    updatePassword=(event)=>{
+      this.setState({password: event.target.value});
+    }
+
+    handleSubmit=(event)=>{
+      event.preventDefault();
+      console.log(this.state);
+      // send data to backend
+      
+    }
     
         render() {
             return (
@@ -22,7 +61,7 @@ class SignupFormRetail extends React.Component {
                     <div className="d-flex flex-column ms-5">
             
                       <div className="text-center">
-                        <h4 className="mt-1 mb-5 pb-1">News Website</h4>
+                        <h4 className="mt-1 mb-5 pb-1">Signup</h4>
                       </div>
             
                       <form className="shadow-lg rounded p-3 mb-5" >

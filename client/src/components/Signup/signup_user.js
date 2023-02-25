@@ -22,7 +22,7 @@ class SignupFormUser extends React.Component {
                     <div className="d-flex flex-column ms-5">
             
                       <div className="text-center">
-                        <h4 className="mt-1 mb-5 pb-1">News Website</h4>
+                        <h4 className="mt-1 mb-5 pb-1">Signup</h4>
                       </div>
             
                       <form className="shadow-lg rounded p-3 mb-5" >
