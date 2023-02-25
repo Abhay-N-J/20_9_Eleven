@@ -6,7 +6,7 @@ const router = express.Router();
 const userModel = require('../models/userModel')
 const productModel = require('../models/productModel')
 const shopModel = require('../models/retailerModel')
-import geofence from "./../geofencing/geofencing"
+const geofence = require("./../geofencing/geofencing")
 
 const saltRounds = 10
 

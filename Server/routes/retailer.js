@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const retailModel = require('../models/retailerModel')
 const productModel = require('../models/productModel')
-const userModel = require('../models/shopModel')
+const userModel = require('../models/userModel')
 const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
