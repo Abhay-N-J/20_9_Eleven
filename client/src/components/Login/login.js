@@ -77,7 +77,7 @@ class LoginForm extends React.Component {
                           </div>
                           <div className="text-center pt-1 mb-5 pb-1">
                           {/* <MDBBtn className="mb-4 w-100 gradient-custom-2" type="submit">Sign in</MDBBtn> */}
-                            <Button className="mb-4 w-25 gradient-custom-2" onClick={this.submit} type='submit'> Submit </Button>
+                            <Button className="mb-4 w-25 gradient-custom-2" onSubmit={this.submit} type='submit'> Submit </Button>
                             <br/>
                           </div>
                       </form>
@@ -87,9 +87,9 @@ class LoginForm extends React.Component {
                       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                         <pre className="mb-0">Don't have an account?  </pre>
                         {/* <Link to="/Signup"> */}
-                       <Button className='mb-4 w-25 gradient-custom-2'  color='danger' > 
+                       <Link to={'/signup'} className='mb-4 w-25 gradient-custom-2'  color='danger' > 
                           SignUp
-                        </Button> 
+                        </Link> 
                         {/* </Link> */}
                       </div>
             

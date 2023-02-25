@@ -9,6 +9,7 @@ import {
   from 'mdb-react-ui-kit';
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Axios = axios.create({
   baseURL: "http://localhost:4100"
@@ -41,12 +42,12 @@ class LoginRetail extends React.Component {
       username: this.state.username,
       password: this.state.password
     }
-    Axios.post('/login', data)
+    Axios.post('/retail/login', data)
     .then(token => {
-      if(token.success === true)
-        this.props.setToken({'token':token.success, 'id':token.user._id})
-      else 
-        alert("Password or username is wrong")
+        this.props.setToken({'token':true, 'id':token._id});
+    })
+    .catch(err => {
+      alert("Password or username is wrong");
     })
   }
 
@@ -69,14 +70,14 @@ class LoginRetail extends React.Component {
                             <p>Dear Retailer , Login to an already existing account</p>
                           </div>
                           <div className="d-flex justify-content-center">
-                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="user" type='text'/>
+                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="username" onChange={this.onChange} requierd type='text'/>
                           </div>
                           <div className="d-flex justify-content-center">
-                            <MDBInput label='Password' method='post' wrapperClass='mb-4 w-75' name="passwd"  required type='password'/>
+                            <MDBInput label='Password' method='post' wrapperClass='mb-4 w-75' name="passwd" onChange={this.onChange} required type='password'/>
                           </div>
                           <div className="text-center pt-1 mb-5 pb-1">
                           {/* <MDBBtn className="mb-4 w-100 gradient-custom-2" type="submit">Sign in</MDBBtn> */}
-                            <Button className="mb-4 w-25 gradient-custom-2" type='submit'> Submit </Button>
+                            <Button className="mb-4 w-25 gradient-custom-2" type='submit' onSubmit={this.submit}> Submit </Button>
                             <br/>
                           </div>
                       </form>
@@ -85,9 +86,9 @@ class LoginRetail extends React.Component {
             
                       <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                         <pre className="mb-0">Don't have an account?  </pre>
-                        <Button className='mb-4 w-25 gradient-custom-2' color='danger' >
+                        <Link to={'/retail/signup'} className='mb-4 w-25 gradient-custom-2' color='danger' >
                           Sign Up
-                        </Button>
+                        </Link>
                       </div>
             
                     </div>
