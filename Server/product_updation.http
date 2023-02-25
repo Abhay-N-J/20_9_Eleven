@@ -1,0 +1,10 @@
+PUT http://localhost:4100/retailer/product-update
+Content-Type: application/json
+
+{
+    "shop_id":"63fa276d83ce14ae47145255",
+    "shop_name":"Shop Name",
+    "product_id":"63fa1d6c56ff3f916471fd52",
+    "qty":55
+
+}

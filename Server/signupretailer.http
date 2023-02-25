@@ -2,7 +2,7 @@ POST http://localhost:4100/retailer/signup
 Content-Type: application/json
 
 {
-    "username":"shreya",
+    "username":"shreya3223",
     "name":"shreya",
     "email":"shreya@gmail.com",
     "password":"shreya",
