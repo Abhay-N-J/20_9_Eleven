@@ -20,7 +20,7 @@ const retailerModel = new mongoose.Schema({
     },
     products:[{
         product_id:String,
-        shop_name:String,
+        product_name:String,
         quantity:Number,
 
     }],

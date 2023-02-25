@@ -5,7 +5,7 @@ const router = express.Router();
 
 const userModel = require('../models/userModel')
 const productModel = require('../models/productModel')
-const shopModel = require('../models/shopModel')
+const shopModel = require('../models/retailerModel')
 import geofence from "./../geofencing/geofencing"
 
 const saltRounds = 10
@@ -62,7 +62,7 @@ router.post('/login', (request, response, next) => {
                 // user exists
                 console.log(user);
                 if (bcrypt.compareSync(request.body.password, user.password)) {
-                    response.json(user);
+                    response.json({success:"true",user:user});
                 }
                 else {
                     response.status(400).json({ sucess: "false", msg: "Invalid password" });
@@ -92,10 +92,26 @@ router.get('/products/:lat/:lng', (request, response, next) => {
                 console.log(shops);
                 var shopList = []
                 var productList=[]
+                var prod=[]
+                var radius =2000// 2km
                 shops.forEach(shop => {
                     if (geofence(userLat, userLng, shop.location.lat, shop.location.lng)) {
                         shopList.push(shop)
-                        productList.push(shop.products)
+                        shop.productList.forEach(prod=>{
+                            // add only unique elements
+                            if(!productList.includes(prod.product_id)){
+                                productList.push(prod.product_id)
+                            }
+                        },function (){
+                            // find productList ids in productModel in prod array
+                            productModel.find({_id:{$in:productList}},function(err,docs){
+                                prod=docs
+                            }
+                            )
+                            response.send(prod)
+                        })
+
+                        
                     }
                 });
                 console.log(shopList)

@@ -20,7 +20,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   }
   
 
-function geofence(userLat,userLng,shopLat,shopLng){
+function geofence(userLat,userLng,shopLat,shopLng,fenceRadius){
     // Calculate the distance between the user's location and the geofence center
     const distance = calculateDistance(userLat, userLng, shopLat, shopLng);
 

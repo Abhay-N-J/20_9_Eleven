@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 const retailModel = require('../models/retailerModel')
 const productModel = require('../models/productModel')
+const userModel = require('../models/shopModel')
 const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
@@ -141,7 +142,18 @@ router.put('/add-item', async (req, res, next) => {
                 description: req.body.description
             })
             product.save()
-            res.send(product)
+                .then(() => {
+                    retailModel.find(req.body.shop_id)
+                        .then((retailer) => {
+                            retailer.products.push({
+                                product_id: product._id,
+                                product_name: product.name,
+                                quantity: product.qty
+                            })
+                            res.send(product)
+                        })
+
+                })
         }
         else {
             product.shops.push({
