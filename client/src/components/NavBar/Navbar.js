@@ -1,57 +1,80 @@
-import React from "react";
-import "./Navbar.css"
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-import '../../index.css';
+// import { useRef } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+// import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+// import NavDropdown from "react-bootstrap/NavDropdown";
+// import { Link } from "react-router-dom";
 
 
+function NavBar({ logOut }) {
 
-class Navbar extends React.Component {
-    constructor() {
-        super();
-        
-        }
-        
+//   const ref = useRef();
+//   const handleSubmit = (e) => {
+//     e.preventDefault()
+//     type ? handleSearch(ref.current.value, '') : handleSearch('', ref.current.value)
+//     // console.log(ref.current.value);
+//   }
+  return (
+    <Navbar bg="dark" expand="lg" variant = 'dark'>
+      <Container fluid>
+        <Navbar.Brand href="/">Duffers</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0 ml-auto"
+            style={{ maxHeight: "100px" }}
+            navbarScroll 
+          >
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/contact">Home</Nav.Link>
+            <Nav.Link href="/cards">Buy</Nav.Link>
+            {/* <NavDropdown title="Categories" id="navbarScrollingDropdown">
+              <NavDropdown.Item href='/head/business' >Business</NavDropdown.Item>
+              <NavDropdown.Item href='/head/sports' >Sports</NavDropdown.Item>
+              <NavDropdown.Item href='/head/entertainment' >Entertainment</NavDropdown.Item>
+              <NavDropdown.Item href='/head/health' >Health</NavDropdown.Item>
+              <NavDropdown.Item href='/head/tech' >Technology</NavDropdown.Item>
+              <NavDropdown.Item href='/head/sci' >Science</NavDropdown.Item> */}
 
-    
+              {/* <NavDropdown.Item href="#action4">
+                Another action
+              </NavDropdown.Item> */}
+              {/* <NavDropdown.Divider /> */}
+              {/* <NavDropdown.Item href="#action5">
+                Something else here
+              </NavDropdown.Item> */}
+            {/* </NavDropdown> */}
+            {/* <Nav.Link href="/everything">
+              Everything
+            </Nav.Link>
+            <Nav.Link href="/sources">
+              Sources
+            </Nav.Link>
+            <Nav.Link href="/collection">
+              My Collection
+            </Nav.Link>
+            <Nav.Link href="/memes">
+              Memes
+            </Nav.Link> */}
+          </Nav>
+          {/* <Form className="d-flex" onSubmit={handleSubmit}>
+            <Form.Control 
+              type="search"
+              placeholder={type ? "Search Country" : "Search anything"}
+              className="me-2"
+              aria-label="Search"
+              ref={ref}
+            /> */}
+            {/* <Button variant="outline-success" type='submit'>Search</Button> */}
+          {/* </Form> */}
+          <Button variant="outline-danger" style={{marginLeft:'5px'}} onClick={logOut} >Logout</Button>
 
-    render() {
-        return (
-            <div className="NavBar sticky-top sticky-offset" >
-                <div className="container-fluid bg-primary">
-                    <nav className="navbar navbar-expand-lg  text-light">
-
-                        <a className="navbar-brand text-light" href="/"><h1 style={{ fontSize: "25px" }}>Duffers</h1></a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item Button">
-                                    <a className="nav-link text-light" aria-current="page" href="/">Home</a>
-                                </li>
-                                {/* <li className="nav-item Button">
-                                    <a className="nav-link text-light" href="/movies">Movies</a>
-                                </li> */}
-                                <li className="nav-item Button">
-                                    <a className="nav-link text-light" href="/contactus">Contact Us</a>
-                                </li>
-                                
-                            </ul>
-                            <form className="d-flex"  role="search">
-                                {<button className="Button btn btn-outline-dark text-light" type="submit">Login/Signup</button> }
-                                {/* <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" /> 
-                                <button className="Button btn btn-outline-dark text-light" type="submit">Search</button> */}
-                            </form>
-
-                        </div>
-                    </nav>
-
-                </div>
-
-            </div>
-        );
-    }
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar;
+export default NavBar;

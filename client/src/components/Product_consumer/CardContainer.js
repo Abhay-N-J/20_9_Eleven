@@ -26,7 +26,7 @@ class CardContainer extends Component
         this.setState({
             isLoaded: false
         })
-        const body = Axios.get('/display');
+        const body = Axios.get('/products');
         return body;
     }
 
@@ -79,11 +79,12 @@ class CardContainer extends Component
                 <div className="row d-flex justify-content-around wrapper">
                 {this.state.isLoaded ? this.state.items.map((ele) => {
                         return Number(ele.qty) > 0 ? (
-                            <div className="col-md-4" key = {ele.url} style = {{ paddingBottom: '40px'}}>
+                            <div className="col-md-4" key = {ele.name} style = {{ paddingBottom: '40px'}}>
                                 <CardItem 
                                     image = {ele.image_link}
                                     name = {ele.name}
                                     description = {ele.description}
+                                    price = {ele.price}
                                 /> 
                             </div>
                         ) : ""

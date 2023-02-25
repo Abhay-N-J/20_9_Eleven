@@ -2,15 +2,15 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 // import fetch from 'node-fetch';
-import Loading from "../Assets/Eclipse-1s-200px.gif";
-import NotImage from "../Assets/images.jpeg";
+import Loading from "../../Assets/Eclipse-1s-200px.gif";
+import NotImage from "../../Assets/images.jpeg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import Styles from '../Login/snackbar.module.css'
+import Styles from './snackbar.module.css'
 import { Component, createRef, PureComponent } from 'react'
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
-import {Cookies} from 'js-cookie'
+import Cookies from 'js-cookie'
 // import { getToken } from '../Login/useToken'
 // import { Modal } from 'react-bootstrap';
 
@@ -26,8 +26,27 @@ export class CardItem extends Component {
     this.state = { 
       time: 0,
       open : false,
+      qty: 0
     }
     this.snackbarRef = createRef();
+  }
+
+  componentDidMount() {
+    this.setState({
+        qty : this.cart()
+    })
+  }
+
+  cart = e => {
+    let cart = Cookies.get('cart')
+    if(!cart)
+        return 0;
+    cart = JSON.parse(cart);
+    for(var i = 0; i < cart.length; i++) {
+        if(cart[i].name == this.props.name) {
+            return cart[i].qty;
+        }
+    }
   }
 
   _showSnackbarHandler = (message) => {
@@ -57,35 +76,47 @@ export class CardItem extends Component {
   }
   
   add = e => {
+    e.stopPropagation()
     let cart = Cookies.get('cart');
     const name = this.props.name;
     if(!cart) {
         const obj = [{'name': name, 'qty': 1}]
-        Cookies.set('cart',obj, {expires: 2})
+        Cookies.set('cart',JSON.stringify(obj), {expires: 2})
     }
     else {
-        for(var i = 0; i < cart.length(); i++) {
+        cart = JSON.parse(cart)
+        for(var i = 0; i < cart.length; i++) {
             if(cart[i].name === name) {
                 cart[i].qty++; 
-                return Cookies.set('cart', cart, {expires: 2})
+                this.setState({
+                    qty : cart[i].qty
+                })
+                return Cookies.set('cart', JSON.stringify(cart), {expires: 2})
             }
         }
         cart.push({'name': name, 'qty': 1})
-        Cookies.set('cart', cart, {expires: 2})
+        Cookies.set('cart', JSON.stringify(cart), {expires: 2})
     }
   }
 
   minus = e => {
+    e.stopPropagation()
     let cart = Cookies.get('cart');
     const name = this.props.name;
     if(!cart) {
-        return;
+        this.setState({
+            qty:0
+        })
     }
     else {
-        for(var i = 0; i < cart.length(); i++) {
+        cart = JSON.parse(cart)
+        for(var i = 0; i < cart.length; i++) {
             if(cart[i].name === name) {
-                cart[i].qty += Number(cart[i].qty) > 0 ? 1 : 0; 
-                return Cookies.set('cart', cart, {expires: 2})
+                cart[i].qty -= Number(cart[i].qty) > 0 ? 1 : 0; 
+                this.setState({
+                    qty : cart[i].qty
+                })
+                return Cookies.set('cart', JSON.stringify(cart), {expires: 2})
             }
         }
     }
@@ -113,17 +144,8 @@ export class CardItem extends Component {
 
 //   }
 
-  cart = e => {
-    const cart = Cookies.get('cart')
-    for(var i = 0; i < cart.length(); i++) {
-        if(cart[i].name === this.props.name) { 
-            return cart[i].qty;
-        }
-    }
-  }
-
   render() {
-    let {image, description, name } = this.props;
+    let {image, description, name, price } = this.props;
     // console.log(title);
     return (
           <>
@@ -134,9 +156,9 @@ export class CardItem extends Component {
                         placeholderSrc={ this.state.time <= 10 ? Loading : NotImage } />
               <Card.Body>
                     <Card.Title >{name}</Card.Title>
-                    <Card.Text >
+                    {/* <Card.Text >
                       {description ? description.slice(0,80)+"...":""}
-                    </Card.Text>
+                    </Card.Text> */}
               </Card.Body>
               <ListGroup className="list-group-flush">
                 <ListGroup.Item >{description }</ListGroup.Item>
@@ -149,10 +171,13 @@ export class CardItem extends Component {
                       <Button title='Add to cart' onClick={this.add}>+</Button>
                     </div>
                     <div className='col-2'>
-                        {this.cart()}
+                        {this.state.qty}
                     </div>
                     <div className='col-2'>
                       <Button title='Remove from cart' onClick={this.minus}>-</Button>
+                    </div>
+                    <div className='col'>
+                        Price: Rs.{price}
                     </div>
                   </div>
                 </ListGroup.Item>
