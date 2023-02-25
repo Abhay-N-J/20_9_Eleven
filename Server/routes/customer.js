@@ -5,6 +5,8 @@ const router = express.Router();
 
 const userModel = require('../models/userModel')
 const productModel = require('../models/productModel')
+const shopModel = require('../models/shopModel')
+import geofence from "./../geofencing/geofencing"
 
 const saltRounds = 10
 
@@ -79,11 +81,25 @@ router.post('/login', (request, response, next) => {
     }
 })
 
-router.get('/products', (request, response, next) => {
+router.get('/products/:lat/:lng', (request, response, next) => {
     try {
-        productModel.find({})
-            .then((data) => {
-                response.json(data)
+        console.log(request.params)
+        const userLat = request.params.lat
+        const userLng = request.params.lng
+        shopModel.find()
+            .then((shops) => {
+                // user exists
+                console.log(shops);
+                var shopList = []
+                var productList=[]
+                shops.forEach(shop => {
+                    if (geofence(userLat, userLng, shop.location.lat, shop.location.lng)) {
+                        shopList.push(shop)
+                        productList.push(shop.products)
+                    }
+                });
+                console.log(shopList)
+                response.json(shopList)
             })
     }
     catch (err) {
