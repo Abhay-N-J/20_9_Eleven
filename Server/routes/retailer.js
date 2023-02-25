@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const retailModel = require('../models/retailerModel')
 const productModel = require('../models/productModel')
@@ -17,6 +17,7 @@ router.post('/signup', (request, response, next) => {
                     password: hash,
                     email: request.body.email,
                     location: request.body.location,
+                    address:request.body.address,
                     products: []
                 })
                 retailTemplate.save((err, data) => {
