@@ -28,8 +28,11 @@ function NavBar({ logOut }) {
             navbarScroll 
           >
             <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/contact">Home</Nav.Link>
+            <Nav.Link href="/retail/login">Retailer Login</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/contact">ContactUs</Nav.Link>
             <Nav.Link href="/cards">Buy</Nav.Link>
+
             {/* <NavDropdown title="Categories" id="navbarScrollingDropdown">
               <NavDropdown.Item href='/head/business' >Business</NavDropdown.Item>
               <NavDropdown.Item href='/head/sports' >Sports</NavDropdown.Item>

@@ -9,10 +9,49 @@ import {
   }
   from 'mdb-react-ui-kit';
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
+const Axios = axios.create({
+  baseURL: "http://localhost:4100"
+})
 
 class LoginForm extends React.Component {
     
+        constructor() {
+          super();
+          this.state = {
+            username : '',
+            password : ''
+          }
+        }
+
+        onChange = e => {
+            if(e.target.name === 'username') {
+              this.setState({
+                username: e.target.value
+              })
+            }
+            else {
+              this.setState({
+                password: e.target.value
+              })
+            }
+        }
+
+        submit = () => {
+          const data = {
+            username: this.state.username,
+            password: this.state.password
+          }
+          Axios.post('/login', data)
+          .then(token => {
+            if(token.success === true)
+              this.props.setToken({'token':token.success, 'id':token.user._id})
+            else 
+              alert("Password or username is wrong")
+          })
+        }
+
         render() {
             return (
                 <MDBContainer className="my-5 gradient-form">
@@ -31,14 +70,14 @@ class LoginForm extends React.Component {
                             <p>Dear Customer , Login to an already existing account</p>
                           </div>
                           <div className="d-flex justify-content-center">
-                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="user" type='text'/>
+                            <MDBInput wrapperClass='mb-4 w-75' label='User Name' name="username" onChange={this.onChange} required type='text'/>
                           </div>
                           <div className="d-flex justify-content-center">
-                            <MDBInput method='post' label='Password' wrapperClass='mb-4 w-75' name="passwd"  required type='password'/>
+                            <MDBInput method='post' label='Password' wrapperClass='mb-4 w-75' onChange={this.onChange} name="password"  required type='password'/>
                           </div>
                           <div className="text-center pt-1 mb-5 pb-1">
                           {/* <MDBBtn className="mb-4 w-100 gradient-custom-2" type="submit">Sign in</MDBBtn> */}
-                            <Button className="mb-4 w-25 gradient-custom-2" type='submit'> Submit </Button>
+                            <Button className="mb-4 w-25 gradient-custom-2" onClick={this.submit} type='submit'> Submit </Button>
                             <br/>
                           </div>
                       </form>

@@ -8,10 +8,49 @@ import {
   }
   from 'mdb-react-ui-kit';
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
-
+const Axios = axios.create({
+  baseURL: "http://localhost:4100"
+})
 class LoginRetail extends React.Component {
     
+  constructor() {
+    super();
+    this.state = {
+      username : '',
+      password : ''
+    }
+  }
+
+  onChange = e => {
+      if(e.target.name === 'username') {
+        this.setState({
+          username: e.target.value
+        })
+      }
+      else {
+        this.setState({
+          password: e.target.value
+        })
+      }
+  }
+
+  submit = () => {
+    const data = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    Axios.post('/login', data)
+    .then(token => {
+      if(token.success === true)
+        this.props.setToken({'token':token.success, 'id':token.user._id})
+      else 
+        alert("Password or username is wrong")
+    })
+  }
+
+
         render() {
             return (
                 <MDBContainer className="my-5 gradient-form">
