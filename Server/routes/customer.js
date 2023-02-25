@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 
 const userModel = require('../models/userModel')
+const productModel = require('../models/productModel')
+
 const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
@@ -68,9 +70,21 @@ router.post('/login', (request, response, next) => {
             // response.json({hash:hash, pass:user.password })
 
             .catch((error) => {
-                response.status(400).json({msg:"err"});
+                response.status(400).json({ msg: "err" });
             })
-        
+
+    }
+    catch (err) {
+        next(err);
+    }
+})
+
+router.get('/products', (request, response, next) => {
+    try {
+        productModel.find({})
+            .then((data) => {
+                response.json(data)
+            })
     }
     catch (err) {
         next(err);

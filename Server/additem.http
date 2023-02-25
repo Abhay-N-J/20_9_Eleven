@@ -1,0 +1,13 @@
+PUT http://localhost:4100/retailer/add-item
+Content-Type: application/json
+
+{
+    "shop_id":"63fa1a616e27a6c59ad49eb0",
+    "shop_name":"Shop Name",
+    "name":"Product Name",
+    "description":"Product Description",
+    "price":100,
+    "qty":10,
+    "image_link":"sfhsfuswufhns"
+
+}

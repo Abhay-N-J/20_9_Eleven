@@ -8,7 +8,7 @@ const saltRounds = 10
 
 router.post('/signup', (request, response, next) => {
     try {
-        bcrypt.hash(request.body.passwd, saltRounds)
+        bcrypt.hash(request.body.password, saltRounds)
         .then(hash => {
             const retailTemplate = new retailModel({
                 username: request.body.username,
@@ -45,6 +45,50 @@ router.post('/signup', (request, response, next) => {
     
 })
 
+router.post('/login', (request, response, next) => {
+    try {
+        const user = {
+            username: request.body.username,
+        };
+        // response.json({ msg: "Login Successful" });
+
+        retailModel.findOne(user)
+            .then((user) => {
+                // user exists
+                if (user) {
+                    bcrypt.compare(request.body.password, user.password)
+                        .then((result) => {
+                            if (result) {
+                                response.json(user);
+                            }
+                            else {
+                                response.status(400).json({
+                                    success: false,
+                                    code: 69,
+                                    message: 'Incorrect Password',
+                                    errors: "Incorrect Password",
+                                });
+                            }
+                        })
+                }
+                else {
+                    response.status(400).json({
+                        success: false,
+                        code: 69,
+                        message: 'User does not exist',
+                        errors: "User does not exist",
+                    });
+                }
+            })
+    }
+    catch (err) {
+        next(err);
+    }
+})
+
+// router.get('/')
+
+
 
 router.put('/add-item', async (req, res, next) => {
     try {
@@ -55,14 +99,24 @@ router.put('/add-item', async (req, res, next) => {
                 qty: req.body.qty,
                 price: req.body.price,
                 image_link: req.body.image_link,
-                shops: [req.body.shop_name],
+                shops: [{
+                    shop_id:req.body.shop_id,
+                    quantity:req.body.qty,
+                    shop_name: req.body.shop_name
+                }],
                 description: req.body.description
             })
             product.save()
+            res.send(product)
         }
         else {
-            product.shops.push(req.body.shop_name)
-            productModel.save()
+            product.shops.push({
+                shop_id:req.body.shop_id,
+                quantity:req.body.qty,
+                shop_name: req.body.shop_name
+            })
+            product.save()
+            res.send(product)
         }
     }
     catch(err) {
@@ -71,8 +125,8 @@ router.put('/add-item', async (req, res, next) => {
 })
 
 router.use((err, req, res, next) => {
-    // console.error(err.stack)
-    response.status(400).json({
+    console.error(err.stack)
+    res.status(400).json({
         success: false,
         code: 69,
         message: 'Some Error occured',

@@ -1,0 +1,7 @@
+POST http://localhost:4100/retailer/login
+Content-Type: application/json
+
+{
+    "username":"shreya",
+    "password":"shreya"
+}
