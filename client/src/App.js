@@ -10,11 +10,11 @@ import SignupFormUser from './components/Signup/signup_user';
 import LoginRetail from './components/Login/login_retail';
 import Home from './components/Home'
 
-export class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
       this.state = {
-          token:sessionStorage.getToken('token'),
+          token:sessionStorage.getItem('token'),
       }
     // console.log(getToken());
   }
