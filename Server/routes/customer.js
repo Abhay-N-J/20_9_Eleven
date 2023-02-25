@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// Create User using :POST "/signup" Doesn't require Auth
+const userModel= require('../models/userModel')
+
+
 router.post('/signup', (request, response) => {
     response.send('User Created');
 })
