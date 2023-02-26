@@ -88,11 +88,12 @@ router.post('/login', (request, response, next) => {
     }
 })
 
-router.get('/product', (req, res, next) => {
+router.get('/product/:id', (req, res, next) => {
     try {
-        let products = productModel.find()
+        const request = req.params.id;
+        let products = retailModel.find({_id: ObjectId(request)})
             .then((product) => {
-                res.send(products)
+                res.send(product)
             })
     }
     catch (err) {
@@ -109,15 +110,15 @@ router.put('/product-update', (req, res, next) => {
         shop_name:
         qty:
         */
-        let product = productModel.findOne({ _id: req.body.product_id })
+        productModel.findOne({ _id: req.body.product_id })
             .then((product) => {
                 product.shops.forEach((shop) => {
                     if (shop.shop_id === req.body.shop_id) {
-                        shop.quantity = req.body.qty
+                        shop.qty += req.body.add ? 1 : shop.qty === 0 ? 0 : -1; 
+                        res.send(shop.qty)
                     }
                 })
                 product.save()
-                res.send(product)
             })
     }
     catch (err) {

@@ -46,7 +46,7 @@ class LoginRetail extends React.Component {
     Axios.post('/retailer/login', data)
     .then(token => {
       console.log(token);
-        this.props.setToken({'token':true, 'id':token.data._id});
+        this.props.setToken({'token':2, 'id':token.data._id});
         window.location = '/'
     })
     .catch(err => {

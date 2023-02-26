@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
           Axios.post('/login', data)
           .then(token => {
             if(token.success === true) {
-              this.props.setToken({'token':token.success, 'id':token.user._id})
+              this.props.setToken({'token':1, 'id':token.user._id})
               window.location = '/'
             }
             else 

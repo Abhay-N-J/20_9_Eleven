@@ -9,7 +9,9 @@ import SignupFormRetail from './components/Signup/signup_retail';
 import SignupFormUser from './components/Signup/signup_user';
 import LoginRetail from './components/Login/login_retail';
 import Home from './components/Home'
-
+import ProductAdd from './components/Product/productadd'
+import CardRetailer from './components/Product_Retailer/CardRetailer'
+import CardItemRetailer from './components/Product_Retailer/CardItemRetailer';
 export default class App extends Component {
   constructor() {
     super();
@@ -43,13 +45,13 @@ export default class App extends Component {
     if(!this.state.token) {
       return (
           <Router>
-            <Navbar logOut = {this.logOut} />
+            <Navbar logOut = {this.logOut} token = {this.state.token}/>
             <Routes>
               <Route exact path = '/' element = {<Home/>} />
               <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
               <Route exact path = '/signup' element = {<SignupFormUser/>} />
               <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
-              {['cards','login'].map(path => <Route key={path} path={path} element={<Login setToken = {this.handleToken}/>} ></Route>)}
+              {['cards','login','/retail/signup','/signup','/retail/login'].map(path => <Route key={path} path={path} element={<Login setToken = {this.handleToken}/>} ></Route>)}
               {/* <Route path = '/(login|head|collection|sources|login|everythin|memes)/' element = {<Login setToken = {this.handleToken}/> } /> */}
             </Routes>
           </Router>
@@ -59,7 +61,7 @@ export default class App extends Component {
     if(this.state.token === 1) 
       return (
         <Router>
-              <Navbar logOut = {this.logOut} />
+              <Navbar logOut = {this.logOut} token = {this.state.token} />
               {/* <div style={{marginTop:'40px'}}>
 
               <SideBar/>
@@ -72,7 +74,6 @@ export default class App extends Component {
                     <Route exact path = '/' element = {<Home/>} />
                     <Route exact path = '/signup' element = {<SignupFormUser/>} />
                     <Route exact path = '/login' element = {<Login setToken = {this.handleToken}/>} />
-                    <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
                     <Route exact path = '/contact' element = {<ContactUs/>} />
                     <Route exact path = '/cards' element = {<CardContainer/>} />
                     {/* <Route exact path = '/everything' element = {<NewsContainer key = {this.state.query} type='everything' q = {this.state.query} onQuery = {this.onQuery} />} />
@@ -89,7 +90,7 @@ export default class App extends Component {
       else 
           return (
             <Router>
-                <Navbar logOut = {this.logOut} />
+                <Navbar logOut = {this.logOut} token = {this.state.token}/>
                 {/* <div style={{marginTop:'40px'}}>
 
                 <SideBar/>
@@ -98,13 +99,14 @@ export default class App extends Component {
           <StyledLink to='/Comp'>Component</StyledLink> */}
                 <Routes>
                       <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
+                      <Route exact path = '/retail/add' element = {<ProductAdd/>} />
+                      <Route exact path = '/retail/card' element = {<CardItemRetailer/>} />
                       <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
                       <Route exact path = '/' element = {<Home/>} />
                       <Route exact path = '/signup' element = {<SignupFormUser/>} />
                       <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
                       <Route exact path = '/login' element = {<Login setToken = {this.handleToken}/>} />
                       <Route exact path = '/contact' element = {<ContactUs/>} />
-                      <Route exact path = '/cards' element = {<CardContainer/>} />
                 </Routes> 
           </Router>
           )
