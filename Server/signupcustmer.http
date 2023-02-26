@@ -2,10 +2,13 @@ POST http://localhost:4100/signup
 Content-Type: application/json
 
 {
-    "username":"shreya",
-    "email":"shreya@gmail.com",
-    "password":"shreya",
-    "location":"20,100",
+    "username":"abhay",
+    "email":"abhay@gmail.com",
+    "password":"abhay",
+    "location":{
+        "latitude":21.44,
+        "longitude":73.434
+    },
     "address":"Help sfyewhb"
 
 }
