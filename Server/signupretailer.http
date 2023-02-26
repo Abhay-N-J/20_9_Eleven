@@ -2,11 +2,14 @@ POST http://localhost:4100/retailer/signup
 Content-Type: application/json
 
 {
-    "username":"shreya3223",
-    "name":"shreya",
+    "username":"1234",
+    "name":"erfera",
     "address":"sdbhbshfb",
-    "email":"shreya@gmail.com",
+    "email":"sfswfya@gmail.com",
     "password":"shreya",
-    "location":"20,100"
+    "location":{
+        "latitude":65.43,
+        "longitude":88.43
+    }
 
 }
