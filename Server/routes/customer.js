@@ -147,44 +147,54 @@ router.post('/order/:lat/:lng', (req, res, next) => {
         console.log(req.body.shopList)
         // use products array and check the frequency of shops which occur the most in productModel
         // then use that shop to place the order
-        var obj={};
+        var obj = {};
 
-        var k = productModel.find({ _id: { $in: req.body.products } })
+        var k = productModel.find({ _id: { $in: req.body.order.products } })
             .then(() => {
                 console.log(k)
-                for (var i=0; i<k.length;i++){
+                for (var i = 0; i < k.length; i++) {
                     // count frequency of shopList in k
                     var shopList = k[i].shopList
-                    var obj={}
-                    for (var j=0; j<k[i].shop.length;j++){
+                    var obj = {}
+                    for (var j = 0; j < k[i].shop.length; j++) {
                         if (shopList.includes(obj[k[i].shop[j]]))
-                        if (obj[k[i].shop[j]]){
-                            obj[k[i].shop[j]]+=1
-                        }
-                        else{
-                            obj[k[i].shop[j]]=1
-                        }
+                            if (obj[k[i].shop[j]]) {
+                                obj[k[i].shop[j]] += 1
+                            }
+                            else {
+                                obj[k[i].shop[j]] = 1
+                            }
                     }
                 }
                 // find max value in the obj
                 var max = 0
                 var shop = ""
-                for (var key in obj){
-                    if (obj[key]>max){
+                for (var key in obj) {
+                    if (obj[key] > max) {
                         max = obj[key]
                         shop = key
                     }
                 }
                 // place order in shop
 
-                var order= new orderModel(req.body.order)
-                .then(()=>{
-                    order.save()
-                    res.json({success:true, msg:"Order Placed"})
-                })
-                .catch((err)=>{
-                    res.json({success:false, msg:"Error Occured"})
-                })
+                // deduct money from user's wallet
+                var user = userModel.find({ _id: req.body.user_id })
+                    .then(() => {
+                        user.wallet -= req.body.order.price
+                        user.save()
+                    })
+                    .catch(() => {
+                        res.json({ success: false, msg: "Insufficient Balance" })
+                    })
+
+                var order = new orderModel(req.body.order)
+                    .then(() => {
+                        order.save()
+                        res.json({ success: true, id: order._id, msg: "Order Placed" })
+                    })
+                    .catch((err) => {
+                        res.json({ success: false, msg: "Error Occured" })
+                    })
 
             })
 
