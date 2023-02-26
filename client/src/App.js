@@ -11,7 +11,6 @@ import LoginRetail from './components/Login/login_retail';
 import Home from './components/Home'
 import ProductAdd from './components/Product/productadd'
 import CardRetailer from './components/Product_Retailer/CardRetailer'
-import CardItemRetailer from './components/Product_Retailer/CardItemRetailer';
 export default class App extends Component {
   constructor() {
     super();
@@ -24,6 +23,7 @@ export default class App extends Component {
   setToken = userToken => {
     sessionStorage.setItem('token',userToken.token)
     sessionStorage.setItem('id',userToken.id)
+    sessionStorage.setItem('shop_name',userToken.shop_name)
   }
 
   handleToken = userToken => {
@@ -100,7 +100,7 @@ export default class App extends Component {
                 <Routes>
                       <Route exact path = '/retail/login' element = {<LoginRetail setToken = {this.handleToken}/>} />
                       <Route exact path = '/retail/add' element = {<ProductAdd/>} />
-                      <Route exact path = '/retail/card' element = {<CardItemRetailer/>} />
+                      <Route exact path = '/retail/card' element = {<CardRetailer/>} />
                       <Route exact path = '/retail/signup' element = {<SignupFormRetail/>} />
                       <Route exact path = '/' element = {<Home/>} />
                       <Route exact path = '/signup' element = {<SignupFormUser/>} />
